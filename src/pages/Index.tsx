@@ -71,10 +71,10 @@ const Index = () => {
         {!uploadedImage ? (
           <div className="text-center mb-12">
             <h1 className="text-5xl font-bold text-gray-800 mb-4">
-              Culinary Snapshot Chef
+              Snap Chef
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Upload a photo of any dish and discover amazing recipes you can make with those ingredients
+              Snap a photo of any dish and discover amazing recipes you can make with those ingredients
             </p>
             <ImageUpload onImageUpload={handleImageUpload} />
           </div>

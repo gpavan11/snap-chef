@@ -9,7 +9,7 @@ export const Header = () => {
           <div className="flex items-center space-x-2">
             <ChefHat className="h-8 w-8 text-orange-500" />
             <h1 className="text-xl font-bold text-gray-800">
-              Culinary Snapshot Chef
+              Snap Chef
             </h1>
           </div>
           
