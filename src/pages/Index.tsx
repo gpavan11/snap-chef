@@ -203,6 +203,17 @@ const getRelevantRecipes = (foodName: string, category: string): Recipe[] => {
         ingredients: ['Sushi rice', 'Nori', 'Crab stick', 'Avocado', 'Cucumber'],
         instructions: ['Prepare sushi rice', 'Roll with filling', 'Slice carefully'],
         nutrition: { calories: 250, protein: '12g', carbs: '45g', fat: '8g' }
+      },
+      {
+        id: 'su2',
+        title: 'Salmon Nigiri',
+        description: 'Fresh salmon over seasoned sushi rice',
+        image: 'https://images.unsplash.com/photo-1563612116625-3012372fccce?w=400&h=300&fit=crop',
+        cookTime: '20 mins',
+        difficulty: 'Medium' as const,
+        ingredients: ['Sushi rice', 'Fresh salmon', 'Wasabi', 'Soy sauce'],
+        instructions: ['Prepare sushi rice', 'Slice salmon', 'Form nigiri'],
+        nutrition: { calories: 180, protein: '15g', carbs: '20g', fat: '6g' }
       }
     ],
     pasta: [
@@ -216,9 +227,163 @@ const getRelevantRecipes = (foodName: string, category: string): Recipe[] => {
         ingredients: ['Spaghetti', 'Pancetta', 'Eggs', 'Pecorino Romano', 'Black pepper'],
         instructions: ['Cook pasta', 'Fry pancetta', 'Mix with egg mixture'],
         nutrition: { calories: 580, protein: '25g', carbs: '65g', fat: '22g' }
+      },
+      {
+        id: 'p2',
+        title: 'Marinara Pasta',
+        description: 'Simple and delicious tomato pasta',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
+        cookTime: '15 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Pasta', 'Tomato sauce', 'Garlic', 'Basil', 'Olive oil'],
+        instructions: ['Cook pasta', 'Make sauce', 'Combine and serve'],
+        nutrition: { calories: 420, protein: '12g', carbs: '75g', fat: '8g' }
       }
     ],
-    // Add more recipe categories for other food types
+    burger: [
+      {
+        id: 'b1',
+        title: 'Classic Beef Burger',
+        description: 'Juicy beef burger with fresh toppings',
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop',
+        cookTime: '20 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Ground beef', 'Burger buns', 'Lettuce', 'Tomato', 'Onion', 'Cheese'],
+        instructions: ['Form patties', 'Grill burgers', 'Assemble with toppings'],
+        nutrition: { calories: 650, protein: '35g', carbs: '45g', fat: '35g' }
+      },
+      {
+        id: 'b2',
+        title: 'Turkey Burger',
+        description: 'Lean turkey burger with avocado',
+        image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433a?w=400&h=300&fit=crop',
+        cookTime: '18 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Ground turkey', 'Whole wheat buns', 'Avocado', 'Sprouts', 'Red onion'],
+        instructions: ['Season turkey', 'Cook patties', 'Serve with fresh toppings'],
+        nutrition: { calories: 480, protein: '30g', carbs: '35g', fat: '22g' }
+      }
+    ],
+    cake: [
+      {
+        id: 'ck1',
+        title: 'Chocolate Fudge Cake',
+        description: 'Rich and moist chocolate cake with fudge frosting',
+        image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop',
+        cookTime: '45 mins',
+        difficulty: 'Medium' as const,
+        ingredients: ['Flour', 'Cocoa powder', 'Sugar', 'Eggs', 'Butter', 'Chocolate'],
+        instructions: ['Mix dry ingredients', 'Add wet ingredients', 'Bake and frost'],
+        nutrition: { calories: 420, protein: '6g', carbs: '65g', fat: '18g' }
+      },
+      {
+        id: 'ck2',
+        title: 'Vanilla Sponge Cake',
+        description: 'Light and fluffy vanilla cake',
+        image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&h=300&fit=crop',
+        cookTime: '35 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Flour', 'Sugar', 'Eggs', 'Butter', 'Vanilla extract', 'Baking powder'],
+        instructions: ['Cream butter and sugar', 'Add eggs and flour', 'Bake until golden'],
+        nutrition: { calories: 320, protein: '5g', carbs: '55g', fat: '12g' }
+      }
+    ],
+    pizza: [
+      {
+        id: 'pz1',
+        title: 'Classic Margherita Pizza',
+        description: 'Traditional pizza with tomato, mozzarella, and basil',
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop',
+        cookTime: '25 mins',
+        difficulty: 'Medium' as const,
+        ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Fresh basil', 'Olive oil'],
+        instructions: ['Roll out dough', 'Add sauce and cheese', 'Bake until crispy'],
+        nutrition: { calories: 520, protein: '22g', carbs: '65g', fat: '18g' }
+      },
+      {
+        id: 'pz2',
+        title: 'Pepperoni Pizza',
+        description: 'Classic pepperoni pizza with cheese',
+        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop',
+        cookTime: '25 mins',
+        difficulty: 'Medium' as const,
+        ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella', 'Pepperoni'],
+        instructions: ['Prepare dough', 'Add toppings', 'Bake until golden'],
+        nutrition: { calories: 580, protein: '25g', carbs: '60g', fat: '24g' }
+      }
+    ],
+    fish: [
+      {
+        id: 'f1',
+        title: 'Beer Battered Fish',
+        description: 'Crispy beer battered fish with golden coating',
+        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop',
+        cookTime: '20 mins',
+        difficulty: 'Medium' as const,
+        ingredients: ['White fish fillets', 'Beer', 'Flour', 'Baking powder', 'Salt'],
+        instructions: ['Make batter', 'Coat fish', 'Fry until golden'],
+        nutrition: { calories: 380, protein: '28g', carbs: '25g', fat: '18g' }
+      },
+      {
+        id: 'f2',
+        title: 'Grilled Salmon',
+        description: 'Healthy grilled salmon with herbs',
+        image: 'https://images.unsplash.com/photo-1485963631004-f2f00b1d6606?w=400&h=300&fit=crop',
+        cookTime: '15 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Salmon fillets', 'Lemon', 'Dill', 'Olive oil', 'Garlic'],
+        instructions: ['Season salmon', 'Grill 6 mins per side', 'Serve with lemon'],
+        nutrition: { calories: 280, protein: '32g', carbs: '2g', fat: '16g' }
+      }
+    ],
+    vegetable: [
+      {
+        id: 'v1',
+        title: 'Asian Vegetable Stir Fry',
+        description: 'Colorful vegetable stir fry with Asian flavors',
+        image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop',
+        cookTime: '15 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Mixed vegetables', 'Soy sauce', 'Garlic', 'Ginger', 'Sesame oil'],
+        instructions: ['Heat oil in wok', 'Add vegetables', 'Stir fry with sauce'],
+        nutrition: { calories: 180, protein: '6g', carbs: '28g', fat: '6g' }
+      },
+      {
+        id: 'v2',
+        title: 'Roasted Vegetable Medley',
+        description: 'Oven-roasted seasonal vegetables',
+        image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=300&fit=crop',
+        cookTime: '30 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Root vegetables', 'Olive oil', 'Herbs', 'Salt', 'Pepper'],
+        instructions: ['Chop vegetables', 'Toss with oil and herbs', 'Roast until tender'],
+        nutrition: { calories: 150, protein: '4g', carbs: '25g', fat: '5g' }
+      }
+    ],
+    fruit: [
+      {
+        id: 'fr1',
+        title: 'Fresh Fruit Salad',
+        description: 'Refreshing mixed fruit salad with honey dressing',
+        image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop',
+        cookTime: '10 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Mixed seasonal fruits', 'Honey', 'Lime juice', 'Mint leaves'],
+        instructions: ['Chop fruits', 'Mix with honey and lime', 'Garnish with mint'],
+        nutrition: { calories: 120, protein: '2g', carbs: '30g', fat: '0g' }
+      },
+      {
+        id: 'fr2',
+        title: 'Fruit Smoothie Bowl',
+        description: 'Healthy smoothie bowl with fresh toppings',
+        image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop',
+        cookTime: '5 mins',
+        difficulty: 'Easy' as const,
+        ingredients: ['Frozen berries', 'Banana', 'Yogurt', 'Granola', 'Coconut flakes'],
+        instructions: ['Blend frozen fruits', 'Pour into bowl', 'Add toppings'],
+        nutrition: { calories: 280, protein: '12g', carbs: '45g', fat: '8g' }
+      }
+    ],
     default: [
       {
         id: 'd1',
@@ -252,7 +417,13 @@ const getRelevantRecipes = (foodName: string, category: string): Recipe[] => {
   if (lowerFoodName.includes('salad')) recipeKey = 'salad';
   else if (lowerFoodName.includes('chicken')) recipeKey = 'chicken';
   else if (lowerFoodName.includes('sushi')) recipeKey = 'sushi';
-  else if (lowerFoodName.includes('pasta')) recipeKey = 'pasta';
+  else if (lowerFoodName.includes('pasta') || lowerFoodName.includes('carbonara')) recipeKey = 'pasta';
+  else if (lowerFoodName.includes('burger')) recipeKey = 'burger';
+  else if (lowerFoodName.includes('cake') || lowerFoodName.includes('chocolate')) recipeKey = 'cake';
+  else if (lowerFoodName.includes('pizza')) recipeKey = 'pizza';
+  else if (lowerFoodName.includes('fish') || lowerFoodName.includes('chips')) recipeKey = 'fish';
+  else if (lowerFoodName.includes('vegetable') || lowerFoodName.includes('stir fry')) recipeKey = 'vegetable';
+  else if (lowerFoodName.includes('fruit')) recipeKey = 'fruit';
 
   const selectedRecipes = allRecipes[recipeKey as keyof typeof allRecipes] || allRecipes.default;
   
