@@ -48,12 +48,12 @@ const Index = () => {
       // Check if API is configured
       const apiStatus = foodApiService.isConfigured();
       
-      if (!apiStatus.clarifai) {
+      if (!apiStatus.openai && !apiStatus.clarifai) {
         // Fallback to mock detection if no API key
-        console.warn('Clarifai API not configured, using mock detection');
+        console.warn('No AI APIs configured, using mock detection');
         toast({
           title: "Using Demo Mode",
-          description: "Add your API keys in .env file for real food detection",
+          description: "Add your OpenAI API key in .env file for real AI detection",
           variant: "default",
         });
         
@@ -91,9 +91,10 @@ const Index = () => {
       
       setRecipes(convertedRecipes);
       
+      const aiService = apiStatus.openai ? 'OpenAI' : apiStatus.clarifai ? 'Clarifai' : 'Demo';
       toast({
         title: "Food Detected!",
-        description: `Found ${detectionResult.name} with ${Math.round(detectionResult.confidence * 100)}% confidence`,
+        description: `${aiService} found ${detectionResult.name} with ${Math.round(detectionResult.confidence * 100)}% confidence`,
         variant: "default",
       });
       
@@ -147,32 +148,49 @@ const Index = () => {
             {/* API Status Display */}
             <div className="mb-8 max-w-md mx-auto">
               <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">API Status</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">AI Services Status</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between items-center">
-                    <span>Food Detection:</span>
+                    <span className="flex items-center gap-1">
+                      OpenAI (Primary):
+                      {foodApiService.isConfigured().openai && <span className="text-xs text-green-600">✓</span>}
+                    </span>
                     <span className={`px-2 py-1 rounded text-xs ${
-                      foodApiService.isConfigured().clarifai 
+                      foodApiService.isConfigured().openai 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-orange-100 text-orange-800'
                     }`}>
-                      {foodApiService.isConfigured().clarifai ? 'API Ready' : 'Demo Mode'}
+                      {foodApiService.isConfigured().openai ? 'Active' : 'Not Set'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span>Recipe Search:</span>
+                    <span>Clarifai (Backup):</span>
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      foodApiService.isConfigured().clarifai 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {foodApiService.isConfigured().clarifai ? 'Available' : 'Not Set'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Spoonacular (Backup):</span>
                     <span className={`px-2 py-1 rounded text-xs ${
                       foodApiService.isConfigured().spoonacular 
-                        ? 'bg-green-100 text-green-800' 
-                        : 'bg-orange-100 text-orange-800'
+                        ? 'bg-blue-100 text-blue-800' 
+                        : 'bg-gray-100 text-gray-600'
                     }`}>
-                      {foodApiService.isConfigured().spoonacular ? 'API Ready' : 'Mock Data'}
+                      {foodApiService.isConfigured().spoonacular ? 'Available' : 'Not Set'}
                     </span>
                   </div>
                 </div>
-                {(!foodApiService.isConfigured().clarifai || !foodApiService.isConfigured().spoonacular) && (
+                {foodApiService.isConfigured().openai ? (
+                  <p className="text-xs text-green-600 mt-3 font-medium">
+                    🚀 OpenAI powered - Full AI capabilities active!
+                  </p>
+                ) : (
                   <p className="text-xs text-gray-500 mt-3">
-                    Add API keys in .env file for full functionality
+                    Using demo mode - Add OpenAI API key for best experience
                   </p>
                 )}
               </div>

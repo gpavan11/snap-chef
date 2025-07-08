@@ -4,9 +4,12 @@ This guide will help you integrate your Snap Chef application with real APIs for
 
 ## Overview
 
-The application now supports integration with two main services:
-- **Clarifai**: For AI-powered food detection from images
-- **Spoonacular**: For recipe search and detailed recipe information
+The application now supports integration with multiple AI services:
+- **OpenAI** (Primary): Advanced AI for food detection and recipe generation
+- **Clarifai** (Backup): AI-powered food detection from images  
+- **Spoonacular** (Backup): Recipe search and detailed recipe information
+
+**OpenAI is the recommended choice** for the best food detection accuracy and most creative recipe suggestions.
 
 ## Quick Setup
 
@@ -19,7 +22,18 @@ cp .env.example .env
 
 ### 2. Get Your API Keys
 
-#### Clarifai API Key (Food Detection)
+#### OpenAI API Key (Recommended - Primary)
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Sign up for an account
+3. Create a new API key
+4. Copy the key to your `.env` file:
+   ```
+   VITE_OPENAI_API_KEY=your_actual_api_key_here
+   ```
+
+#### Optional Backup Services
+
+**Clarifai API Key (Food Detection Backup)**
 1. Visit [Clarifai.com](https://clarifai.com/)
 2. Sign up for a free account
 3. Go to your [API Keys page](https://clarifai.com/settings/security)
@@ -29,7 +43,7 @@ cp .env.example .env
    VITE_CLARIFAI_API_KEY=your_actual_api_key_here
    ```
 
-#### Spoonacular API Key (Recipe Search)
+**Spoonacular API Key (Recipe Search Backup)**
 1. Visit [Spoonacular Food API](https://spoonacular.com/food-api)
 2. Sign up for a free account (150 requests/day free tier)
 3. Go to your [Profile page](https://spoonacular.com/food-api/console#Profile)
@@ -46,13 +60,21 @@ npm run dev
 
 ## API Features
 
-### Food Detection (Clarifai)
+### OpenAI (Primary AI Service)
+- **Advanced food recognition** using GPT-4 Vision for unmatched accuracy
+- **Creative recipe generation** tailored to detected ingredients
+- **Intelligent categorization** and confidence scoring
+- **Dynamic ingredient extraction** from visual analysis
+- **Contextual cooking instructions** written in natural language
+- **Realistic nutrition calculations** based on ingredients and portions
+
+### Clarifai (Backup Food Detection)
 - **Real-time food recognition** from uploaded images
 - **Confidence scores** for detection accuracy
 - **Category classification** (Healthy, Protein, Italian, etc.)
 - **Ingredient extraction** from detected food items
 
-### Recipe Search (Spoonacular)
+### Spoonacular (Backup Recipe Search)
 - **Recipe suggestions** based on detected ingredients
 - **Detailed nutrition information** (calories, protein, carbs, fat)
 - **Step-by-step cooking instructions**
@@ -67,6 +89,12 @@ The application gracefully handles missing API keys:
 - **API errors**: Automatically switches to demo mode with user notification
 
 ## API Usage Limits
+
+### OpenAI Pricing
+- **Pay-per-use** model (no free tier)
+- **GPT-4o-mini**: ~$0.003 per food detection + ~$0.02 per recipe generation
+- **Very cost-effective**: Typically $0.02-0.05 per complete analysis
+- **High quality**: Best accuracy and most creative recipes
 
 ### Clarifai Free Tier
 - **1,000 operations/month** free
@@ -115,7 +143,8 @@ Images are automatically:
 
 **"Using Demo Mode" notification**
 - Check that your `.env` file exists in the project root
-- Verify API keys are correctly formatted (no extra spaces)
+- Verify your OpenAI API key is correctly formatted (starts with sk-proj-)
+- Ensure no extra spaces in the API key
 - Restart the development server after adding keys
 
 **API Error responses**
