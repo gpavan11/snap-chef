@@ -4,11 +4,14 @@ import { ImageUpload } from '@/components/ImageUpload';
 import { FoodDetectionResult } from '@/components/FoodDetectionResult';
 import { RecipeGrid } from '@/components/RecipeGrid';
 import { Header } from '@/components/Header';
+import { foodApiService, type FoodDetectionResult as ApiFoodDetectionResult, type ApiRecipe } from '@/lib/api';
+import { useToast } from '@/hooks/use-toast';
 
 export interface DetectedFood {
   name: string;
   confidence: number;
   category: string;
+  ingredients?: string[];
 }
 
 export interface Recipe {
@@ -26,6 +29,7 @@ export interface Recipe {
     carbs: string;
     fat: string;
   };
+  sourceUrl?: string;
 }
 
 const Index = () => {
@@ -34,18 +38,81 @@ const Index = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [savedRecipes, setSavedRecipes] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const handleImageUpload = async (imageUrl: string) => {
     setUploadedImage(imageUrl);
     setIsAnalyzing(true);
     
-    // Mock AI detection with realistic delay
-    setTimeout(() => {
+    try {
+      // Check if API is configured
+      const apiStatus = foodApiService.isConfigured();
+      
+      if (!apiStatus.clarifai) {
+        // Fallback to mock detection if no API key
+        console.warn('Clarifai API not configured, using mock detection');
+        toast({
+          title: "Using Demo Mode",
+          description: "Add your API keys in .env file for real food detection",
+          variant: "default",
+        });
+        
+        setTimeout(() => {
+          const mockDetection = analyzeImage(imageUrl);
+          setDetectedFood(mockDetection);
+          setRecipes(getRelevantRecipes(mockDetection.name, mockDetection.category));
+          setIsAnalyzing(false);
+        }, 2500);
+        return;
+      }
+
+      // Real API detection
+      const detectionResult = await foodApiService.analyzeFood(imageUrl);
+      const detectedFoodData: DetectedFood = {
+        name: detectionResult.name,
+        confidence: detectionResult.confidence,
+        category: detectionResult.category,
+        ingredients: detectionResult.ingredients
+      };
+      
+      setDetectedFood(detectedFoodData);
+
+      // Get recipes using the API or fallback
+      const apiRecipes = await foodApiService.getRecipes(detectionResult);
+      const convertedRecipes: Recipe[] = apiRecipes.map(recipe => ({
+        ...recipe,
+        nutrition: recipe.nutrition ? {
+          calories: Math.round(recipe.nutrition.calories),
+          protein: recipe.nutrition.protein,
+          carbs: recipe.nutrition.carbs,
+          fat: recipe.nutrition.fat
+        } : undefined
+      }));
+      
+      setRecipes(convertedRecipes);
+      
+      toast({
+        title: "Food Detected!",
+        description: `Found ${detectionResult.name} with ${Math.round(detectionResult.confidence * 100)}% confidence`,
+        variant: "default",
+      });
+      
+    } catch (error) {
+      console.error('Food detection error:', error);
+      
+      toast({
+        title: "Detection Error",
+        description: "Failed to analyze the image. Using demo mode instead.",
+        variant: "destructive",
+      });
+      
+      // Fallback to mock data on error
       const mockDetection = analyzeImage(imageUrl);
       setDetectedFood(mockDetection);
       setRecipes(getRelevantRecipes(mockDetection.name, mockDetection.category));
+    } finally {
       setIsAnalyzing(false);
-    }, 2500);
+    }
   };
 
   const handleSaveRecipe = (recipeId: string) => {
@@ -76,6 +143,41 @@ const Index = () => {
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Snap a photo of any dish and discover amazing recipes you can make with those ingredients
             </p>
+            
+            {/* API Status Display */}
+            <div className="mb-8 max-w-md mx-auto">
+              <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">API Status</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span>Food Detection:</span>
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      foodApiService.isConfigured().clarifai 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-orange-100 text-orange-800'
+                    }`}>
+                      {foodApiService.isConfigured().clarifai ? 'API Ready' : 'Demo Mode'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Recipe Search:</span>
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      foodApiService.isConfigured().spoonacular 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-orange-100 text-orange-800'
+                    }`}>
+                      {foodApiService.isConfigured().spoonacular ? 'API Ready' : 'Mock Data'}
+                    </span>
+                  </div>
+                </div>
+                {(!foodApiService.isConfigured().clarifai || !foodApiService.isConfigured().spoonacular) && (
+                  <p className="text-xs text-gray-500 mt-3">
+                    Add API keys in .env file for full functionality
+                  </p>
+                )}
+              </div>
+            </div>
+            
             <ImageUpload onImageUpload={handleImageUpload} />
           </div>
         ) : (

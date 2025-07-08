@@ -60,6 +60,17 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## API Integration
+
+This project supports real-time food detection and recipe search through API integration. See the **[API Integration Guide](./API_INTEGRATION_GUIDE.md)** for detailed setup instructions.
+
+### Quick Start with APIs
+1. Copy `.env.example` to `.env`
+2. Add your API keys from Clarifai (food detection) and Spoonacular (recipes)
+3. Restart the development server
+
+The app works in demo mode without API keys, but real APIs provide much more accurate food detection and diverse recipe suggestions.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/df18483e-014a-4703-84c3-8f019cc90dc7) and click on Share -> Publish.
